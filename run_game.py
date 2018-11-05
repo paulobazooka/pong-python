@@ -2,45 +2,6 @@ from Class.Table import *
 from Class.Pabble import Paddle
 from Class.Ball import Ball
 
-class Paddle(pygame.sprite.Sprite):
-    def __init__(self, player_number):
-
-        ### Creating the paddle ###
-        pygame.sprite.Sprite.__init__(self)
-
-        self.player_number = player_number
-        self.image = pygame.Surface([10, 100])
-        self.image.fill(WHITE)
-        self.rect = self.image.get_rect()
-        self.speed = 8
-
-
-        ### Establishing the location of each paddle ###
-        if self.player_number == 1:
-            self.rect.centerx = main_surface.get_rect().left
-            self.rect.centerx += 50
-        elif self.player_number == 2:
-            self.rect.centerx = main_surface.get_rect().right
-            self.rect.centerx -= 50
-        self.rect.centery = main_surface.get_rect().centery
-
-    def move(self):
-
-        if self.player_number == 1:
-            if (UP1 == True) and (self.rect.y > 5):
-                self.rect.y -= self.speed
-            elif (DOWN1 == True) and (self.rect.bottom < WINDOW_HEIGHT - 5):
-                self.rect.y += self.speed
-            elif (NO_MOVEMENT1 == True):
-                pass
-
-        if self.player_number == 2:
-            if (UP2 == True) and (self.rect.y > 5):
-                self.rect.y -= self.speed
-            elif (DOWN2 == True) and (self.rect.bottom < WINDOW_HEIGHT - 5):
-                self.rect.y += self.speed
-            elif (NO_MOVEMENT2 == True):
-                pass
 
 paddle1 = Paddle(1)
 paddle2 = Paddle(2)
@@ -49,22 +10,22 @@ ball = Ball()
 
 all_sprites = pygame.sprite.RenderPlain(paddle1, paddle2, ball)
 
-
 player1_score = 0
 player2_score = 0
 
+
 def paddle_hit():
     if pygame.sprite.collide_rect(ball, paddle2):
-        if (ball.direction == UPRIGHT):
+        if ball.direction == UPRIGHT:
             ball.direction = UPLEFT
-        elif (ball.direction == DOWNRIGHT):
+        elif ball.direction == DOWNRIGHT:
             ball.direction = DOWNLEFT
         ball.speed += 1
         # sound_effect.play()
     elif pygame.sprite.collide_rect(ball, paddle1):
-        if (ball.direction == UPLEFT):
+        if ball.direction == UPLEFT:
             ball.direction = UPRIGHT
-        elif (ball.direction == DOWNLEFT):
+        elif ball.direction == DOWNLEFT:
             ball.direction = DOWNRIGHT
         ball.speed += 1
         # sound_effect.play()
@@ -76,17 +37,16 @@ while True:
 
     clock.tick(60)
 
-    if (ball.rect.x > WINDOW_WIDTH):
+    if ball.rect.x > WINDOW_WIDTH:
         ball.rect.centerx = surface_rect.centerx
         ball.rect.centery = surface_rect.centery
         ball.direction = randint(0, 1)
         ball.speed = 4
-    elif (ball.rect.x < 0):
+    elif ball.rect.x < 0:
         ball.rect.centerx = surface_rect.centerx
         ball.rect.centery = surface_rect.centery
         ball.direction = randint(2, 3)
         ball.speed = 4
-
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -98,11 +58,11 @@ while True:
                 pygame.quit()
                 sys.exit()
 
-            if event.key == ord('a'):
+            if event.key == ord('w'):
                 UP1 = True
                 DOWN1 = False
                 NO_MOVEMENT1 = False
-            elif event.key == ord('z'):
+            elif event.key == ord('s'):
                 UP1 = False
                 DOWN1 = True
                 NO_MOVEMENT1 = False
@@ -116,9 +76,8 @@ while True:
                 DOWN2 = True
                 NO_MOVEMENT2 = False
 
-
         elif event.type == KEYUP:
-            if event.key == ord('a') or event.key == ord('z'):
+            if event.key == ord('w') or event.key == ord('s'):
                 NO_MOVEMENT1 = True
                 DOWN1 = False
                 UP1 = False
@@ -127,52 +86,19 @@ while True:
                 DOWN2 = False
                 UP2 = False
 
-
     score_board = basic_font.render(str(player1_score) + "           " + str(player2_score), True, WHITE, BLACK)
     score_board_rect = score_board.get_rect()
     score_board_rect.centerx = surface_rect.centerx
     score_board_rect.y = 10
 
-
-
-
     main_surface.fill(BLACK)
 
     main_surface.blit(score_board, score_board_rect)
 
-    netx = surface_rect.centerx
-
-    # net_rect0 = pygame.Rect(netx, 0, 5, 5)
-    # net_rect1 = pygame.Rect(netx, 60, 5, 5)
-    # net_rect2 = pygame.Rect(netx, 120, 5, 5)
-    # net_rect3 = pygame.Rect(netx, 180, 5, 5)
-    # net_rect4 = pygame.Rect(netx, 240, 5, 5)
-    # net_rect5 = pygame.Rect(netx, 300, 5, 5)
-    # net_rect6 = pygame.Rect(netx, 360, 5, 5)
-    # net_rect7 = pygame.Rect(netx, 420, 5, 5)
-    # net_rect8 = pygame.Rect(netx, 480, 5, 5)
-    # net_rect9 = pygame.Rect(netx, 540, 5, 5)
-    # net_rect10 = pygame.Rect(netx, 595, 5, 5)
-    #
-    #
-    #
-    # pygame.draw.rect(main_surface, WHITE, (net_rect0.left, net_rect0.top, net_rect0.width, net_rect0.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect1.left, net_rect1.top, net_rect1.width, net_rect1.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect2.left, net_rect2.top, net_rect2.width, net_rect2.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect3.left, net_rect3.top, net_rect3.width, net_rect3.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect4.left, net_rect4.top, net_rect4.width, net_rect4.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect5.left, net_rect5.top, net_rect5.width, net_rect5.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect6.left, net_rect6.top, net_rect6.width, net_rect6.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect7.left, net_rect7.top, net_rect7.width, net_rect7.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect8.left, net_rect8.top, net_rect8.width, net_rect8.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect9.left, net_rect9.top, net_rect9.width, net_rect9.height))
-    # pygame.draw.rect(main_surface, WHITE, (net_rect10.left, net_rect10.top, net_rect10.width, net_rect10.height))
-
-
     all_sprites.draw(main_surface)
 
-    paddle1.move()
-    paddle2.move()
+    paddle1.move(UP1, DOWN1, NO_MOVEMENT1)
+    paddle2.move(UP2, DOWN2, NO_MOVEMENT2)
     ball.move()
     ball.change_direction()
 
@@ -182,8 +108,6 @@ while True:
         player1_score += 1
     elif ball.rect.x < 0:
         player2_score += 1
-
-
 
     pygame.display.update()
 
