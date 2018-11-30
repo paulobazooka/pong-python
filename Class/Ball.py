@@ -2,6 +2,8 @@ from Class.Table import *
 
 
 class Ball(pygame.sprite.Sprite):
+
+    # Inicia a bola com alguns parâmetros
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
 
@@ -13,6 +15,7 @@ class Ball(pygame.sprite.Sprite):
         self.direction = randint(0,3)
         self.speed = 4
 
+    # Move a bola pelo campo
     def move(self):
         if self.direction == UPLEFT:
             self.rect.x -= self.speed
@@ -27,6 +30,7 @@ class Ball(pygame.sprite.Sprite):
             self.rect.x += self.speed
             self.rect.y += self.speed
 
+    # Muda a direção da bola
     def change_direction(self):
         if self.rect.y < 0 and self.direction == UPLEFT:
             self.direction = DOWNLEFT

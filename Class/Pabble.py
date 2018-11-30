@@ -2,8 +2,9 @@ from Class.Table import *
 
 
 class Paddle(pygame.sprite.Sprite):
+
+    # Inicia a barra do jogador com alguns parâmentros
     def __init__(self, player_number):
-        ### Creating the paddle ###
         pygame.sprite.Sprite.__init__(self)
 
         self.player_number = player_number
@@ -12,7 +13,7 @@ class Paddle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.speed = 8
 
-        ### Establishing the location of each paddle ###
+        # Estabelecendo a posição das barras dos dois jogadores
         if self.player_number == 1:
             self.rect.centerx = main_surface.get_rect().left
             self.rect.centerx += 50
@@ -21,6 +22,7 @@ class Paddle(pygame.sprite.Sprite):
             self.rect.centerx -= 50
         self.rect.centery = main_surface.get_rect().centery
 
+    # Mover a barra para cima e para baixo
     def move(self, UP, DOWN, NO_MOVEMENT):
         if UP and (self.rect.y > 5):
             self.rect.y -= self.speed
